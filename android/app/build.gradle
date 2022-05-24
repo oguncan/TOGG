@@ -23,10 +23,19 @@ if (flutterVersionName == null) {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 31
+
+    ndkVersion "23.1.7779620"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -41,20 +50,108 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
-    defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.togg"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 
-    buildTypes {
+    splits{
+        abi{
+            enable false
+            reset()
+            include "x86", "x86_64", "armeabi", "armeabi-v7a", "arm64-v8a"
+            universalApk false
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.togg.assesment"
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        multiDexEnabled true
+        ndk {
+            debugSymbolLevel 'SYMBOL_TABLE'
+        }
+    }
+
+    signingConfigs {
         release {
-            // TODO: Add your own signing config for the release build.
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
+
+    buildTypes {
+        debug {
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            useProguard true
+        }
+
+        release {
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            useProguard true
+
+            ndk {
+                debugSymbolLevel 'SYMBOL_TABLE'
+            }
+
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        tasks.whenTaskAdded { task ->
+            if (task.name.startsWith("bundle")) {
+                def renameTaskName = "rename${task.name.capitalize()}Aab"
+                def flavor = task.name.substring("bundle".length()).uncapitalize()
+                tasks.create(renameTaskName, Copy) {
+                    def path = "${buildDir}/outputs/bundle/${flavor}/"
+                    from(path)
+                    include "app.aab"
+                    destinationDir file("${buildDir}/outputs/renamedBundle/")
+                    rename "app.aab", "${flavor}.aab"
+                }
+
+                task.finalizedBy(renameTaskName)
+            }
+        }
+
+        android.applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                def buildType = variant.buildType.name
+                println("buildType=" + buildType)
+                def projectRootDir = "$rootDir"
+                def outputFileDir = new File(projectRootDir + File.separator, "apk")
+                println("outputFileDir=" + outputFileDir)
+                def productFlavorsName = productFlavors.name.toString()
+                def oldApkFlavorsName = productFlavorsName.replace("[", "").trim()
+                def newApkFlavorsName = oldApkFlavorsName.replace("]", "").trim()
+                println("newApkFlavorsName=" + newApkFlavorsName)
+                def apkFlavorsNameDir = new File(outputFileDir, newApkFlavorsName)
+                println("apkFlavorsNameDir=" + apkFlavorsNameDir)
+                // variant.getPackageApplicationProvider().get().outputDirectory = apkFlavorsNameDir
+                def appName
+                if (productFlavorsName.contains("dev")) {
+                    appName = "togg-dev"
+                } else if (productFlavorsName.contains("test")) {
+                    appName = "togg-beta"
+                } else if (productFlavorsName.contains("release")) {
+                    appName = "togg-release"
+                } else {
+                    appName = "togg"
+                }
+                def releaseApkName = "" + appName + "-" + defaultConfig.versionName + ".apk"
+                output.outputFileName = releaseApkName
+            }
         }
     }
 }
@@ -65,4 +162,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation platform('com.google.firebase:firebase-bom:27.0.0')
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation group: 'com.google.android.material', name: 'material', version: '1.1.0-alpha05'
 }

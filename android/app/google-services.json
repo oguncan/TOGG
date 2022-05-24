@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1063237609082",
+    "project_id": "togg-77355",
+    "storage_bucket": "togg-77355.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063237609082:android:14fa3bf41205bbb721bdc3",
+        "android_client_info": {
+          "package_name": "com.togg.assesment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1063237609082-famab6shs4ljpda7gdgr3fc4nufvo2st.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.togg.assesment",
+            "certificate_hash": "554318cd93bff246997217d935f94b541d2c0314"
+          }
+        },
+        {
+          "client_id": "1063237609082-fnetpnis4g3h4pupld9ip21bgbns6u47.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHhFXDzyW2lu6UcYoISWui2d0ixpgqV9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1063237609082-fnetpnis4g3h4pupld9ip21bgbns6u47.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
