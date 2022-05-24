@@ -19,7 +19,7 @@ class RouteController extends GetxController {
     // if(Application.backendSettings != null) {
     await Future.delayed(const Duration(milliseconds: 1000), () {
       isLoadWelcomePage.value = false;
-      //Get.toNamed('/home');
+      Get.toNamed('/login');
     });
   }
 

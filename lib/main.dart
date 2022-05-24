@@ -17,6 +17,8 @@ import 'package:togg/common/langs/translation_service.dart';
 import 'package:togg/pages/pages.dart';
 import 'package:togg/router/router.dart';
 
+import 'src/generated/poi.dart';
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
@@ -38,6 +40,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Poi = PoiRequest();
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(// navigation bar color
       statusBarColor: AppColors.fullBlack, // status bar color
