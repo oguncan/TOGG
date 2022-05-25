@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:get_storage/get_storage.dart';
+import 'package:togg/common/values/values.dart';
+import 'package:togg/common/values/values.dart';
 import 'package:togg/src/generated/poi.dart';
 
 abstract class ILocalDataSource {
   Future setFavorite(List<PoiReply> items);
-  List<PoiReply> get favorities;
+  List<PoiReply> get favorites;
 
   Future setToken(String token);
   String? get token;
@@ -18,12 +20,12 @@ class LocalDataSource implements ILocalDataSource {
   @override
   Future<void> setFavorite(List<PoiReply> items) {
     return _getStorage.write(
-        "favorite", jsonEncode(items.map((x) => x.writeToJson()).toList()));
+        FAVORITES, jsonEncode(items.map((x) => x.writeToJson()).toList()));
   }
 
   @override
-  List<PoiReply> get favorities {
-    String? jsonString = _getStorage.read("favorite");
+  List<PoiReply> get favorites {
+    String? jsonString = _getStorage.read(FAVORITES);
     if (jsonString != null) {
       try {
         return List<PoiReply>.from(
@@ -38,9 +40,9 @@ class LocalDataSource implements ILocalDataSource {
 
   @override
   Future<void> setToken(String? token) {
-    return _getStorage.write("Token", token);
+    return _getStorage.write(TOKEN, token);
   }
 
   @override
-  String? get token => _getStorage.read("Token");
+  String? get token => _getStorage.read(TOKEN);
 }

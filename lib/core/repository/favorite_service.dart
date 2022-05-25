@@ -31,6 +31,6 @@ class FavoriteService extends IFavoriteService {
 
   @override
   List<PoiReply> get favorite {
-    return LocalDataSource.instance.favorities;
+    return LocalDataSource.instance.favorites;
   }
 }
