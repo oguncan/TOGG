@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Poi = PoiRequest();
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(// navigation bar color
       statusBarColor: AppColors.fullBlack, // status bar color
@@ -50,7 +49,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       initialBinding: RouteBinding(),
-      title: 'Murat Lastik Premium',
+      title: 'TOGG',
       theme: ThemeData(
         pageTransitionsTheme: PageTransitionsTheme(builders: {
           TargetPlatform.android: CupertinoPageTransitionsBuilder(),
