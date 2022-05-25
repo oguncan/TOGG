@@ -17,6 +17,16 @@ class AppPages {
       page: () => LoginScreen(),
       binding: LoginBinding(),
     ),
+    GetPage(
+      name: AppRoutes.Home,
+      page: () => HomeScreen(),
+      binding: HomeBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.Favorite,
+      page: () => FavoriteScreen(),
+      binding: FavoriteBinding(),
+    ),
   ];
 
 }
