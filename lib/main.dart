@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:huawei_push/huawei_push.dart' as HuaweiPush;
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:togg/application.dart';
@@ -22,6 +23,7 @@ import 'src/generated/poi.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
   HttpOverrides.global = MyHttpOverrides();
   await Firebase.initializeApp();
   await initializeDateFormatting('tr_TR', null);

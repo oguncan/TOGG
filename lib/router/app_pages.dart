@@ -45,7 +45,7 @@ class AppPages {
 class MyMiddleWare extends GetMiddleware {
   @override
   GetPage? onPageCalled(GetPage? page) {
-    print(page?.name);
+
     return super.onPageCalled(page);
   }
 }

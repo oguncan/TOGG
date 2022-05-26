@@ -21,7 +21,6 @@ class LoginController extends GetxController {
   @override
   void onInit() async{
     super.onInit();
-    print(routeController.dataSource.token);
   }
 
   RxBool obscured = true.obs;
@@ -35,7 +34,6 @@ class LoginController extends GetxController {
       var res = await routeController.authServiceRepository
           .login(LoginRequest(username: loginUsernameTextController.text, password: loginPasswordTextController.text));
       await routeController.dataSource.setToken(res.token);
-      print(routeController.dataSource.token);
       routeController.showDynamicToast("Successfully logged in.");
       isAuthenticating(false);
       return true;
