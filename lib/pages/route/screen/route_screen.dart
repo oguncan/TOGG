@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:togg/common/common.dart';
 import 'package:togg/pages/pages.dart';
 
 class RouteScreen extends GetView<RouteController> {
@@ -14,9 +15,7 @@ class RouteScreen extends GetView<RouteController> {
           child: SafeArea(
             child: Scaffold(
               resizeToAvoidBottomInset: false,
-              body: Container(
-
-              ),
+              body: Container(width: 0, height: 0)
             ),
           ));
     });

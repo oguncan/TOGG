@@ -78,4 +78,6 @@ class AppColors {
   static const moreLightGray = Color(0xFFd6d6d6);
   static const mostLightGray = Color(0xFFf3f3f3);
   static const actualGreen = Color(0xFF2d7c32);
+
+  static const toggColor = Color(0xFF00C2E7);
 }

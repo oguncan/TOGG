@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:togg/pages/pages.dart';
 
 abstract class AppRoutes {
   static const Route = "/";

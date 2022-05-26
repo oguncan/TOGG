@@ -14,6 +14,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:togg/application.dart';
 import 'package:togg/common/common.dart';
 import 'package:togg/common/langs/translation_service.dart';
+import 'package:togg/core/local_data_source.dart';
 import 'package:togg/pages/pages.dart';
 import 'package:togg/router/router.dart';
 
@@ -58,13 +59,13 @@ class MyApp extends StatelessWidget {
         primaryColor: AppColors.fullBlack,
         brightness: Brightness.light,
       ),
-      home: RouteScreen(),
       enableLog: true,
       locale: TranslationService.locale,
       translations: TranslationService(),
-      initialRoute: AppPages.INITIAL,
+      initialRoute: LocalDataSource.instance.token == "" ? "login" : "/home",
       getPages: AppPages.routes,
       navigatorObservers: [],
+
     );
   }
 
