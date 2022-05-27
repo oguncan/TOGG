@@ -6,26 +6,22 @@ class FavouriteScreen extends GetView<FavouriteController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RouteController>(builder: (controller) {
-      return WillPopScope(
-          onWillPop: () async {
-            return false;
-          },
-          child: SafeArea(
-            child: Scaffold(
-              resizeToAvoidBottomInset: false,
-              body: Container(
-                child: GestureDetector(
-                  onTap: (){
+    return GetBuilder<FavouriteController>(builder: (controller) {
+      return SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Container(
+            child: GestureDetector(
+              onTap: (){
 
-                  },
-                  child: Text(
-                    "TOGGXD"
-                  ),
-                )
+              },
+              child: Text(
+                "TOGGXD"
               ),
-            ),
-          ));
+            )
+          ),
+        ),
+      );
     });
   }
 }

@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:togg/common/common.dart';
 import 'package:togg/pages/pages.dart';
+import 'package:togg/src/generated/poi.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class HomeScreen extends GetView<HomeController> {
 
@@ -11,8 +14,20 @@ class HomeScreen extends GetView<HomeController> {
     return GetBuilder<HomeController>(builder: (controller) {
       return SafeArea(
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Obx(() => AbsorbPointer(
+            resizeToAvoidBottomInset: false,
+            floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+            floatingActionButton: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: AppColors.toggColor
+              ),
+              child: Text("Favourites", style: CustomTextStyle.smallText(context).copyWith(
+                color: AppColors.white
+              )),
+              onPressed: () {
+                Get.toNamed('/favourite');
+              },
+            ),
+            body: Obx(() => AbsorbPointer(
             absorbing: controller.poiListLoading.isTrue ? true : false,
             child: Opacity(
               opacity: controller.poiListLoading.value ? 0.2 : 1,
@@ -26,7 +41,16 @@ class HomeScreen extends GetView<HomeController> {
                     onMapCreated: (cont) {
                       controller.googleMapController = cont;
                     },
-                    markers: Set<Marker>.of(controller.allMarkers),
+                    markers: controller.poiReplyList.map((poi){
+                      return Marker(
+                        markerId: MarkerId(poi.id.toString()),
+                        position: LatLng(poi.lat, poi.lon),
+                        onTap: (){
+                          showMarkDetailWidget(context, poi);
+                        },
+                        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+                      );
+                    }).toSet(),
                   )),
                   if(controller.poiListLoading.isTrue)
                     Center(
@@ -42,7 +66,6 @@ class HomeScreen extends GetView<HomeController> {
                         ],
                       ),
                     )
-
                 ],
               ),
             ),
@@ -50,5 +73,89 @@ class HomeScreen extends GetView<HomeController> {
         ),
       );
     });
+  }
+
+  void showMarkDetailWidget(BuildContext context, PoiReply poi) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(16),
+            topLeft: Radius.circular(16),
+          ),
+        ),
+        context: context,
+        builder: (context) {
+          return Obx(() => SafeArea(
+            child: Wrap(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 16, right: 16),
+                  padding: EdgeInsets.all(16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text("${poi.name}",
+                                  style: CustomTextStyle.mediumText(context)
+                                      .copyWith()),
+                            ),
+                            SizedBox(height: 16),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: GestureDetector(
+                                onTap: (){
+                                  _launchURL(poi.website);
+                                },
+                                child: Text("${poi.website}",
+                                    style: CustomTextStyle.extraSmallText(context)
+                                        .copyWith(
+                                        decoration: TextDecoration.underline,
+                                        color: Colors.blue
+                                    )),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                          Expanded(
+                              child: Container(
+                            alignment: Alignment.centerRight,
+                            child: IconButton(
+                              onPressed: () async {
+                                controller.addFavoritePoiObject(poi);
+                              },
+                              icon: !controller.isThereFavourite(poi)
+                                  ? Icon(
+                                      Icons.star_border,
+                                      size: 42,
+                                    )
+                                  : Icon(
+                                      Icons.star,
+                                      color: AppColors.redColor,
+                                      size: 42,
+                                    ),
+                            ),
+                          ))
+                        ],
+                      ),
+                )
+              ],
+            ),
+          ));
+        });
+  }
+
+  _launchURL(String url) async {
+    final encodedUrl = Uri.encodeFull(url);
+    if (await canLaunchUrlString(encodedUrl)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

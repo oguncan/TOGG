@@ -9,6 +9,7 @@ class HomeController extends GetxController {
   var routeController = Get.find<RouteController>();
 
   RxList<PoiReply> poiReplyList = <PoiReply>[].obs;
+  RxList<PoiReply> favouritePoiList = <PoiReply>[].obs;
 
   RxBool poiListLoading = false.obs;
 
@@ -34,18 +35,25 @@ class HomeController extends GetxController {
     super.onInit();
     poiListLoading(true);
     getAllPoiValues();
+    getAllFavouritePoiList();
     poiListLoading(false);
+  }
+
+
+  getAllFavouritePoiList() async{
+    favouritePoiList.addAll(routeController.favouriteServiceRepository.favourite);
+  }
+
+  bool isThereFavourite(PoiReply poi){
+    if(favouritePoiList.contains(poi)){
+      return true;
+    }
+    return false;
   }
 
   getAllPoiValues() async{
     routeController.poiServiceRepository.getPois().listen((event){
       poiReplyList.add(event);
-      allMarkers.add(Marker(
-        markerId: MarkerId(event.id.toString()),
-        position: LatLng(event.lat, event.lon),
-        infoWindow: InfoWindow(title: event.name),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-      ));
     }, onError: (error) async{
       if ((error as GrpcError).code == 16) {
         routeController.dataSource.setToken(null);
@@ -66,8 +74,17 @@ class HomeController extends GetxController {
               ))
       );
     }
+  }
 
 
+  addFavoritePoiObject(PoiReply poi) async{
+    poiListLoading(true);
+
+    routeController.favouriteServiceRepository.addRemoveFavorite(poi);
+    favouritePoiList.clear();
+    favouritePoiList.addAll(routeController.favouriteServiceRepository.favourite);
+
+    poiListLoading(false);
   }
 
   void addMaker(LatLng position){
@@ -95,6 +112,8 @@ class HomeController extends GetxController {
     poiListLoading(false);
     update();
   }
+
+
 
 
 
