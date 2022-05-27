@@ -11,7 +11,7 @@ class RouteController extends GetxController {
 
   ///REPOSITORY
   AuthService authServiceRepository = AuthService();
-  FavoriteService favoriteServiceRepository = FavoriteService();
+  FavouriteService favouriteServiceRepository = FavouriteService();
   PoiService poiServiceRepository = PoiService();
 
   ///Data Source(Storage)

@@ -6,8 +6,8 @@ import 'package:togg/common/values/values.dart';
 import 'package:togg/src/generated/poi.dart';
 
 abstract class ILocalDataSource {
-  Future setFavorite(List<PoiReply> items);
-  List<PoiReply> get favorites;
+  Future setFavourite(List<PoiReply> items);
+  List<PoiReply> get favourites;
 
   Future setToken(String token);
   String? get token;
@@ -18,14 +18,14 @@ class LocalDataSource implements ILocalDataSource {
   static LocalDataSource? _localDataSource;
   static LocalDataSource get instance => _localDataSource ??= LocalDataSource();
   @override
-  Future<void> setFavorite(List<PoiReply> items) {
+  Future<void> setFavourite(List<PoiReply> items) {
     return _getStorage.write(
-        FAVORITES, jsonEncode(items.map((x) => x.writeToJson()).toList()));
+        FAVOURITES, jsonEncode(items.map((x) => x.writeToJson()).toList()));
   }
 
   @override
-  List<PoiReply> get favorites {
-    String? jsonString = _getStorage.read(FAVORITES);
+  List<PoiReply> get favourites {
+    String? jsonString = _getStorage.read(FAVOURITES);
     if (jsonString != null) {
       try {
         return List<PoiReply>.from(

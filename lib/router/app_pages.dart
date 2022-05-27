@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../pages/pages.dart';
+import 'package:togg/pages/pages.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -31,10 +31,10 @@ class AppPages {
       preventDuplicates: true,
     ),
     GetPage(
-      name: AppRoutes.Favorite,
+      name: AppRoutes.Favourite,
       middlewares: [MyMiddleWare()],
-      page: () => FavoriteScreen(),
-      binding: FavoriteBinding(),
+      page: () => FavouriteScreen(),
+      binding: FavouriteBinding(),
       participatesInRootNavigator: true,
       preventDuplicates: true,
     ),

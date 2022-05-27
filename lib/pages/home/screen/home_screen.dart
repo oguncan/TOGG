@@ -20,7 +20,8 @@ class HomeScreen extends GetView<HomeController> {
                 children: [
                   Obx(() => controller.poiListLoading.value ? Container(width:0, height: 0) : GoogleMap(
                     initialCameraPosition: controller.initialCameraPosition.value,
-                    zoomControlsEnabled: true,
+                    zoomGesturesEnabled: true,
+                    zoomControlsEnabled: false,
                     myLocationButtonEnabled: false,
                     onMapCreated: (cont) {
                       controller.googleMapController = cont;

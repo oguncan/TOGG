@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class FavoriteController extends GetxController {
+class FavouriteController extends GetxController {
 
   var isLoadWelcomePage = true.obs;
 

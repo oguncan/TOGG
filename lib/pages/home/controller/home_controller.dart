@@ -48,35 +48,49 @@ class HomeController extends GetxController {
       ));
     }, onError: (error) async{
       if ((error as GrpcError).code == 16) {
-        routeController.dataSource.setToken("");
+        routeController.dataSource.setToken(null);
         Get.toNamed('/login');
       }
     }, onDone: () async{
-      initialCameraPosition.value = CameraPosition(
-          target: LatLng(poiReplyList[0].lat, poiReplyList[0].lon),
-          zoom: 8
-      );
+      animateCameraWithNewPosition();
     });
+  }
+
+  animateCameraWithNewPosition(){
+    if(poiReplyList.isNotEmpty){
+      googleMapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+              CameraPosition(
+                  target: LatLng(poiReplyList[0].lat, poiReplyList[0].lon),
+                  zoom: 8
+              ))
+      );
+    }
+
+
   }
 
   void addMaker(LatLng position){
     poiListLoading(true);
-    if(origin.value != null || (origin.value != null && destination.value != null)){
+    if (origin.value != null ||
+        (origin.value != null && destination.value != null)) {
       origin.value = Marker(
-        markerId: MarkerId("origin"),
-        infoWindow: InfoWindow(title: 'Origin'),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-        position: position
-      );
+          markerId: MarkerId("origin"),
+          infoWindow: InfoWindow(title: 'Origin'),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          position: position,
+          onTap: () async {
+
+          });
       destination.value = null;
-    }
-    else{
+    } else {
       destination.value = Marker(
           markerId: MarkerId("destination"),
           infoWindow: InfoWindow(title: 'Destination'),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-          position: position
-      );
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          position: position);
     }
     poiListLoading(false);
     update();

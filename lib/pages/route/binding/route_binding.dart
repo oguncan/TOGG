@@ -11,10 +11,10 @@ class RouteBinding extends Bindings{
     Get.lazyPut<RouteController>(() => RouteController());
     Get.lazyPut<LoginController>(() => LoginController(), fenix: true);
     Get.lazyPut<HomeController>(() => HomeController(), fenix: true);
-    Get.lazyPut<FavoriteController>(() => FavoriteController(), fenix: true);
+    Get.lazyPut<FavouriteController>(() => FavouriteController(), fenix: true);
 
     Get.lazyPut(() => AuthService());
-    Get.lazyPut(() => FavoriteService());
+    Get.lazyPut(() => FavouriteService());
     Get.lazyPut(() => PoiService());
     Get.lazyPut(() => LocalDataSource());
   }

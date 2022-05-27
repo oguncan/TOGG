@@ -9,9 +9,9 @@ export 'login/controller/login_controller.dart';
 export 'login/screen/login_screen.dart';
 
 ///FAVORITE
-export 'favorite/binding/favorite_binding.dart';
-export 'favorite/controller/favorite_controller.dart';
-export 'favorite/screen/favorite_screen.dart';
+export 'favourite/binding/favourite_binding.dart';
+export 'favourite/controller/favourite_controller.dart';
+export 'favourite/screen/favourite_screen.dart';
 
 ///HOME
 export 'home/binding/home_binding.dart';

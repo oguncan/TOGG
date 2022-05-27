@@ -1,2 +1,2 @@
-const String FAVORITES = "FAVORITES";
+const String FAVOURITES = "FAVOURITES";
 const String TOKEN = "TOKEN";

@@ -4,12 +4,12 @@ import 'package:togg/core/local_data_source.dart';
 import 'package:togg/src/generated/poi.dart';
 
 abstract class IFavoriteService {
-  List<PoiReply> get favorite;
+  List<PoiReply> get favourite;
   void addRemoveFavorite(PoiReply item);
   Stream<PoiReply> streamFavorite();
 }
 
-class FavoriteService extends IFavoriteService {
+class FavouriteService extends IFavoriteService {
   final List<PoiReply> _items = [];
   final _streamController = StreamController<PoiReply>();
 
@@ -20,7 +20,7 @@ class FavoriteService extends IFavoriteService {
     } else {
       _items.add(item);
     }
-    LocalDataSource.instance.setFavorite(_items);
+    LocalDataSource.instance.setFavourite(_items);
     _streamController.sink.add(item);
   }
 
@@ -30,7 +30,7 @@ class FavoriteService extends IFavoriteService {
   }
 
   @override
-  List<PoiReply> get favorite {
-    return LocalDataSource.instance.favorites;
+  List<PoiReply> get favourite {
+    return LocalDataSource.instance.favourites;
   }
 }

@@ -39,8 +39,6 @@ class MyHttpOverrides extends HttpOverrides{
 }
 
 class MyApp extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
@@ -64,7 +62,7 @@ class MyApp extends StatelessWidget {
       enableLog: true,
       locale: TranslationService.locale,
       translations: TranslationService(),
-      initialRoute: LocalDataSource.instance.token == "" ? "login" : "/home",
+      initialRoute: LocalDataSource.instance.token == null ? "login" : "/home",
       getPages: AppPages.routes,
       navigatorObservers: [],
 
