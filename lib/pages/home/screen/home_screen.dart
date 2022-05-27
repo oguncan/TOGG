@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:togg/common/common.dart';
 import 'package:togg/pages/pages.dart';
 import 'package:togg/src/generated/poi.dart';
+import 'package:togg/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -23,8 +24,9 @@ class HomeScreen extends GetView<HomeController> {
               child: Text("Favourites", style: CustomTextStyle.smallText(context).copyWith(
                 color: AppColors.white
               )),
-              onPressed: () {
-                Get.toNamed('/favourite');
+              onPressed: () async{
+                var result = await Get.toNamed('/favourite');
+                await controller.getAllFavouritePoiList();
               },
             ),
             body: Obx(() => AbsorbPointer(
@@ -109,7 +111,7 @@ class HomeScreen extends GetView<HomeController> {
                               alignment: Alignment.centerLeft,
                               child: GestureDetector(
                                 onTap: (){
-                                  _launchURL(poi.website);
+                                  launchURL(poi.website);
                                 },
                                 child: Text("${poi.website}",
                                     style: CustomTextStyle.extraSmallText(context)
@@ -148,14 +150,5 @@ class HomeScreen extends GetView<HomeController> {
             ),
           ));
         });
-  }
-
-  _launchURL(String url) async {
-    final encodedUrl = Uri.encodeFull(url);
-    if (await canLaunchUrlString(encodedUrl)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }

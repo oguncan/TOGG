@@ -28,7 +28,7 @@ class RouteController extends GetxController {
     Fluttertoast.showToast(
         msg: message,
         toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.TOP,
+        gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 3,
         backgroundColor: AppColors.toggColor,
         textColor: AppColors.white,

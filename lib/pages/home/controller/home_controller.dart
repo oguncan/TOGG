@@ -41,6 +41,7 @@ class HomeController extends GetxController {
 
 
   getAllFavouritePoiList() async{
+    favouritePoiList.clear();
     favouritePoiList.addAll(routeController.favouriteServiceRepository.favourite);
   }
 
