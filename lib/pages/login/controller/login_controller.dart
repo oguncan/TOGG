@@ -50,6 +50,8 @@ class LoginController extends GetxController {
     if (loginFormKey.currentState!.validate()) {
       bool isSuccess = await login();
       if(isSuccess){
+        routeController.sendFirebaseEventMessage(
+            "home_screen_open", null);
         Get.offNamed('/home');
       }
     }

@@ -122,6 +122,7 @@ class LoginScreen extends GetView<LoginController> {
                             textColor: AppColors.white,
                             borderColor: AppColors.toggColor,
                             onClickAction: () {
+                              controller.routeController.sendFirebaseEventMessage("login_click", null);
                               controller.isFirstClicked.value = true;
                               controller.validateController();
                             },)

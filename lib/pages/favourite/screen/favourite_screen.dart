@@ -22,6 +22,8 @@ class FavouriteScreen extends GetView<FavouriteController> {
                     color: AppColors.white
                 )),
                 onPressed: () async{
+                  controller.routeController.sendFirebaseEventMessage(
+                      "favourite_screen_close", null);
                   Get.back(result: '');
                 },
               ),
@@ -96,6 +98,10 @@ class FavouriteScreen extends GetView<FavouriteController> {
                                                           child:
                                                               GestureDetector(
                                                             onTap: () {
+                                                              controller.routeController.sendFirebaseEventMessage(
+                                                                  "favourite_url_click", {
+                                                                "favourite_url": poi.website,
+                                                              });
                                                               launchURL(
                                                                   poi.website);
                                                             },
@@ -128,6 +134,10 @@ class FavouriteScreen extends GetView<FavouriteController> {
                                                                 color: AppColors
                                                                     .white)),
                                                     onPressed: () async{
+                                                      controller.routeController.sendFirebaseEventMessage(
+                                                          "favourite_remove", {
+                                                        "favourite_name": poi.name,
+                                                      });
                                                       await controller.removeFavoritePoiObject(poi);
                                                     },
                                                   )

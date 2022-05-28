@@ -4,6 +4,7 @@ import 'package:togg/core/local_data_source.dart';
 import 'package:togg/core/repository/repository_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:togg/src/generated/poi.dart';
+import 'package:togg/utils/firebase_analytics_util.dart';
 
 class RouteController extends GetxController {
 
@@ -33,6 +34,10 @@ class RouteController extends GetxController {
         backgroundColor: AppColors.toggColor,
         textColor: AppColors.white,
         fontSize: 16.0);
+  }
+
+  sendFirebaseEventMessage(String eventMessage, Map<String, String>? parameter){
+    FirebaseAnalyticsUtil.instance.event(eventMessage, parameters: parameter);
   }
 
 }

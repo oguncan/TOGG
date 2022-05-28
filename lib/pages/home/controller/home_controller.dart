@@ -33,7 +33,9 @@ class HomeController extends GetxController {
   @override
   void onInit() async{
     super.onInit();
-    print('XD');
+  }
+
+  initializationData() async{
     poiListLoading(true);
     getAllPoiValues();
     getAllFavouritePoiList();

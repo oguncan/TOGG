@@ -6,6 +6,7 @@ import 'package:togg/src/generated/poi.dart';
 abstract class IFavoriteService {
   List<PoiReply> get favourite;
   void addRemoveFavorite(PoiReply item);
+  bool isThereFavourite(PoiReply item);
   Stream<PoiReply> streamFavorite();
 }
 
@@ -32,5 +33,14 @@ class FavouriteService extends IFavoriteService {
   @override
   List<PoiReply> get favourite {
     return LocalDataSource.instance.favourites;
+  }
+
+  @override
+  bool isThereFavourite(PoiReply item) {
+    if (_items.contains(item)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

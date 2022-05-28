@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -20,12 +23,18 @@ import 'package:togg/router/router.dart';
 import 'src/generated/poi.dart';
 
 void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
-  HttpOverrides.global = MyHttpOverrides();
-  await Firebase.initializeApp();
-  await initializeDateFormatting('tr_TR', null);
-  Application.init().then((e) => runApp(MyApp()));
+  await runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await GetStorage.init();
+    HttpOverrides.global = MyHttpOverrides();
+    await Firebase.initializeApp();
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    await initializeDateFormatting('tr_TR', null);
+    Application.init().then((e) => runApp(MyApp()));
+  }, (error, stackTrace) {
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
+  });
+
 }
 
 class MyHttpOverrides extends HttpOverrides{
@@ -37,6 +46,7 @@ class MyHttpOverrides extends HttpOverrides{
 }
 
 class MyApp extends StatelessWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
@@ -62,7 +72,7 @@ class MyApp extends StatelessWidget {
       translations: TranslationService(),
       initialRoute: LocalDataSource.instance.token == null ? "login" : "/home",
       getPages: AppPages.routes,
-      navigatorObservers: [],
+      navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
 
     );
   }

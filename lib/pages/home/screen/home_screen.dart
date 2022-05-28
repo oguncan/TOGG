@@ -1,9 +1,11 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:togg/common/common.dart';
 import 'package:togg/pages/pages.dart';
 import 'package:togg/src/generated/poi.dart';
+import 'package:togg/utils/firebase_analytics_util.dart';
 import 'package:togg/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -25,6 +27,8 @@ class HomeScreen extends GetView<HomeController> {
                 color: AppColors.white
               )),
               onPressed: () async{
+                controller.routeController.sendFirebaseEventMessage(
+                    "favourite_screen_open", null);
                 var result = await Get.toNamed('/favourite');
                 await controller.getAllFavouritePoiList();
               },
@@ -42,12 +46,16 @@ class HomeScreen extends GetView<HomeController> {
                     myLocationButtonEnabled: false,
                     onMapCreated: (cont) {
                       controller.googleMapController = cont;
+                      controller.initializationData();
                     },
                     markers: controller.poiReplyList.map((poi){
                       return Marker(
                         markerId: MarkerId(poi.id.toString()),
                         position: LatLng(poi.lat, poi.lon),
                         onTap: (){
+                          controller.routeController.sendFirebaseEventMessage("marker_click", {
+                            "marker_name": poi.name
+                          });
                           showMarkDetailWidget(context, poi);
                         },
                         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
@@ -111,6 +119,10 @@ class HomeScreen extends GetView<HomeController> {
                               alignment: Alignment.centerLeft,
                               child: GestureDetector(
                                 onTap: (){
+                                  controller.routeController.sendFirebaseEventMessage(
+                                      "marker_url_click", {
+                                    "marker_url": poi.website,
+                                  });
                                   launchURL(poi.website);
                                 },
                                 child: Text("${poi.website}",
@@ -129,6 +141,12 @@ class HomeScreen extends GetView<HomeController> {
                             alignment: Alignment.centerRight,
                             child: IconButton(
                               onPressed: () async {
+                                controller.routeController.sendFirebaseEventMessage(
+                                    controller.routeController.favouriteServiceRepository.isThereFavourite(poi)
+                                        ? "favourite_remove"
+                                        : "favourite_add", {
+                                  "marker_name": poi.name,
+                                });
                                 controller.addFavoritePoiObject(poi);
                               },
                               icon: !controller.isThereFavourite(poi)

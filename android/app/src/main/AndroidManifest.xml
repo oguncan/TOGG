@@ -4,9 +4,14 @@
         android:label="TOGG"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyCPZRI-yFWfX-awwQHvMWrzXfnsEouFFZo"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:requestLegacyExternalStorage="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -19,8 +24,6 @@
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
 
-            <meta-data android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyCPZRI-yFWfX-awwQHvMWrzXfnsEouFFZo"/>
 
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"

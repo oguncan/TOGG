@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1063237609082-famab6shs4ljpda7gdgr3fc4nufvo2st.apps.googleusercontent.com",
+          "client_id": "1063237609082-70a054cp2d6i38ue96n4i0odeapm41og.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.togg.assesment",
-            "certificate_hash": "554318cd93bff246997217d935f94b541d2c0314"
+            "certificate_hash": "0d6def8bc5fda22b74314c1e3a80eb6c2f42539d"
           }
         },
         {
@@ -37,6 +37,13 @@
             {
               "client_id": "1063237609082-fnetpnis4g3h4pupld9ip21bgbns6u47.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1063237609082-e4373i6qogrq2q6ntp34chl4dbr956fi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.togg.assesment"
+              }
             }
           ]
         }
