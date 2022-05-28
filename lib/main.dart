@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:huawei_push/huawei_push.dart' as HuaweiPush;
@@ -18,7 +17,6 @@ import 'package:togg/common/langs/translation_service.dart';
 import 'package:togg/core/local_data_source.dart';
 import 'package:togg/pages/pages.dart';
 import 'package:togg/router/router.dart';
-
 import 'src/generated/poi.dart';
 
 void main() async{

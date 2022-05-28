@@ -33,6 +33,7 @@ class HomeController extends GetxController {
   @override
   void onInit() async{
     super.onInit();
+    print('XD');
     poiListLoading(true);
     getAllPoiValues();
     getAllFavouritePoiList();
@@ -58,7 +59,7 @@ class HomeController extends GetxController {
     }, onError: (error) async{
       if ((error as GrpcError).code == 16) {
         routeController.dataSource.setToken(null);
-        Get.toNamed('/login');
+        Get.offNamed('/login');
       }
     }, onDone: () async{
       animateCameraWithNewPosition();
