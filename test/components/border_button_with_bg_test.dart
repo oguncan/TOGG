@@ -14,18 +14,114 @@ void main() {
     );
   }
 
-  testWidgets('Custom Border Button', (tester) async {
-    final widget = BorderButtonWithBackgroundColor(
-      text: "Login",
-      color: AppColors.toggColor,
-      textColor: AppColors.white,
-      borderColor: AppColors.toggColor,
-      onClickAction: () {},
+  testWidgets('Custom Border Button With Medium Text Style', (tester) async {
+
+    await tester.pumpWidget(
+      Builder(
+        builder: (BuildContext context){
+          final widget = BorderButtonWithBackgroundColor(
+            text: "Login",
+            style: CustomTextStyle.mediumText(context),
+            color: AppColors.toggColor,
+            textColor: AppColors.white,
+            borderColor: AppColors.toggColor,
+            onClickAction: () {},
+          );
+          return _wrapWithMaterialApp(_wrapWithMaterialApp(widget));
+        }
+      )
     );
 
-    await tester.pumpWidget(_wrapWithMaterialApp(_wrapWithMaterialApp(widget)));
+    expect(find.byType(OutlinedButton), findsOneWidget);
+
+  });
+
+  testWidgets('Custom Border Button With Small Text Style', (tester) async {
+
+    await tester.pumpWidget(
+        Builder(
+            builder: (BuildContext context){
+              final widget = BorderButtonWithBackgroundColor(
+                text: "Login",
+                style: CustomTextStyle.smallText(context),
+                color: AppColors.toggColor,
+                textColor: AppColors.white,
+                borderColor: AppColors.toggColor,
+                onClickAction: () {},
+              );
+              return _wrapWithMaterialApp(_wrapWithMaterialApp(widget));
+            }
+        )
+    );
 
     expect(find.byType(OutlinedButton), findsOneWidget);
-    
+
   });
+
+  testWidgets('Custom Border Button With Extra Small Text Style', (tester) async {
+
+    await tester.pumpWidget(
+        Builder(
+            builder: (BuildContext context){
+              final widget = BorderButtonWithBackgroundColor(
+                text: "Login",
+                style: CustomTextStyle.extraSmallText(context),
+                color: AppColors.toggColor,
+                textColor: AppColors.white,
+                borderColor: AppColors.toggColor,
+                onClickAction: () {},
+              );
+              return _wrapWithMaterialApp(_wrapWithMaterialApp(widget));
+            }
+        )
+    );
+
+    expect(find.byType(OutlinedButton), findsOneWidget);
+
+  });
+
+  testWidgets('Custom Border Button With Extra-Extra Text Style', (tester) async {
+
+    await tester.pumpWidget(
+        Builder(
+            builder: (BuildContext context){
+              final widget = BorderButtonWithBackgroundColor(
+                text: "Login",
+                style: CustomTextStyle.extraExtraSmallText(context),
+                color: AppColors.toggColor,
+                textColor: AppColors.white,
+                borderColor: AppColors.toggColor,
+                onClickAction: () {},
+              );
+              return _wrapWithMaterialApp(_wrapWithMaterialApp(widget));
+            }
+        )
+    );
+
+    expect(find.byType(OutlinedButton), findsOneWidget);
+
+  });
+
+  testWidgets('Custom Border Button With Large Text Style', (tester) async {
+
+    await tester.pumpWidget(
+        Builder(
+            builder: (BuildContext context){
+              final widget = BorderButtonWithBackgroundColor(
+                text: "Login",
+                style: CustomTextStyle.largeText(context),
+                color: AppColors.toggColor,
+                textColor: AppColors.white,
+                borderColor: AppColors.toggColor,
+                onClickAction: () {},
+              );
+              return _wrapWithMaterialApp(_wrapWithMaterialApp(widget));
+            }
+        )
+    );
+
+    expect(find.byType(OutlinedButton), findsOneWidget);
+
+  });
+
 }

@@ -10,6 +10,7 @@ class BorderButtonWithBackgroundColor extends StatelessWidget {
     required this.textColor,
     required this.borderColor,
     required this.onClickAction,
+    required this.style,
     this.textSize = 18,
     this.height = 48,
     this.borderRadius = 4,
@@ -26,6 +27,7 @@ class BorderButtonWithBackgroundColor extends StatelessWidget {
   final String text;
   final Color borderColor;
   final Color textColor;
+  final TextStyle style;
   double borderRadius;
   double topLeft;
   double topRight;
@@ -39,10 +41,7 @@ class BorderButtonWithBackgroundColor extends StatelessWidget {
       onPressed: () async => onClickAction,
       child: Text(text.tr,
           textAlign: TextAlign.center,
-          style: CustomTextStyle.mediumText(context).copyWith(
-              color: textColor,
-              fontSize: textSize
-          )),
+          style: style),
       style: OutlinedButton.styleFrom(
         side: BorderSide(
           color: borderColor,
