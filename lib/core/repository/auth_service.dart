@@ -16,7 +16,6 @@ class AuthService implements IAuthService {
           timeout: const Duration(seconds: 15),
           metadata: {'content-type': 'application/grpc'},
         )).login(request);
-    LocalDataSource.instance.setToken(res.token);
     return res;
   }
 }
