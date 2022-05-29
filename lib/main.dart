@@ -16,8 +16,8 @@ import 'package:huawei_push/huawei_push.dart' as HuaweiPush;
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:togg/application.dart';
 import 'package:togg/common/common.dart';
-import 'package:togg/common/langs/translation_service.dart';
 import 'package:togg/core/local_data_source.dart';
+import 'package:togg/locator.dart';
 import 'package:togg/pages/pages.dart';
 import 'package:togg/router/router.dart';
 import 'src/generated/poi.dart';
@@ -30,6 +30,7 @@ void main() async{
     await Firebase.initializeApp();
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
     await initializeDateFormatting('tr_TR', null);
+    setupLocator();
     Application.init().then((e) => runApp(MyApp()));
   }, (error, stackTrace) {
     FirebaseCrashlytics.instance.recordError(error, stackTrace);
@@ -68,8 +69,6 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
       ),
       enableLog: true,
-      locale: TranslationService.locale,
-      translations: TranslationService(),
       initialRoute: LocalDataSource.instance.token == null ? "login" : "/home",
       getPages: AppPages.routes,
       navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],

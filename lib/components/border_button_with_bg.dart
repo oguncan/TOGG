@@ -36,9 +36,7 @@ class BorderButtonWithBackgroundColor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      onPressed: () {
-        onClickAction();
-      },
+      onPressed: () async => onClickAction,
       child: Text(text.tr,
           textAlign: TextAlign.center,
           style: CustomTextStyle.mediumText(context).copyWith(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:togg/common/common.dart';
 
-import '../common.dart';
 
 class CustomTextStyle {
 

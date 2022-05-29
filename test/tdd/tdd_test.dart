@@ -1,5 +1,6 @@
 
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -8,37 +9,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:grpc/grpc.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:togg/common/values/storage.dart';
+import 'package:togg/core/grpc_service_client.dart';
 import 'package:togg/core/local_data_source.dart';
 import 'package:togg/core/repository/repository_service.dart';
 import 'package:togg/main.dart';
 import 'package:togg/pages/pages.dart';
 import 'package:togg/src/generated/poi.dart';
 
+
+@GenerateMocks([
+  PoiReply
+])
 void main(){
   WidgetsFlutterBinding.ensureInitialized();
-  var favouriteService = FavouriteService();
-  var authService = AuthService();
+  MockFavouriteService mockFavouriteService = MockFavouriteService();
+  MockAuthService mockAuthService = MockAuthService();
+  MockPoiService mockPoiService = MockPoiService();
 
-  test('Login Authentication', () async{
-    await authService.login(LoginRequest(username: "Test", password: "Togg"));
-    expect(MockLocalDataSource.instance.token, isNotNull);
+  PoiReply testPoiObject = PoiReply(name: 'TEST');
+
+  setUp((){
+
   });
 
-  test('Add Favourite', () async{
-    favouriteService.addRemoveFavorite(PoiReply(name: 'TEST'));
-    expect(MockLocalDataSource.instance.favourites.length, 1);
-    expect(MockLocalDataSource.instance.favourites.first, PoiReply(name: 'TEST'));
-  });
+  // test('Login Authentication', () async{
+  //   await mockAuthService.login(LoginRequest(username: "Test", password: "Togg"));
+  //   expect(MockLocalDataSource.instance.token, isNotNull);
+  // });
+  //
+  group("TDD", (){
+    // test('sdf', () async{
+    //   when(mockFavouriteService.addRemoveFavorite(testPoiObject))
+    //       .thenAnswer((_) async => { });
+    //   expect(MockLocalDataSource.instance.favourites.length, 1);
+    // });
 
 
-  test('Add and Delete Favourite', () async{
-    PoiReply testObject = PoiReply(name: 'TEST');
-    favouriteService.addRemoveFavorite(testObject);
-    expect(MockLocalDataSource.instance.favourites.length, 1);
-    favouriteService.addRemoveFavorite(testObject);
-    expect(MockLocalDataSource.instance.favourites.length, 0);
+    test('fgh', () async{
+      mockFavouriteService.addRemoveFavorite(testPoiObject);
+      expect(MockLocalDataSource.instance.favourites.length, 1);
+      mockFavouriteService.addRemoveFavorite(testPoiObject);
+      expect(MockLocalDataSource.instance.favourites.length, 0);
+    });
   });
 }
 
@@ -74,4 +91,66 @@ class MockLocalDataSource implements ILocalDataSource {
 
   @override
   String? get token => _getStorage.read(TOKEN);
+}
+
+class MockFavouriteService extends Mock implements IFavoriteService {
+  final List<PoiReply> _items = [];
+  final _streamController = StreamController<PoiReply>();
+
+  @override
+  void addRemoveFavorite(PoiReply item) {
+    if (_items.contains(item)) {
+      _items.remove(item);
+    } else {
+      _items.add(item);
+    }
+    MockLocalDataSource.instance.setFavourite(_items);
+    _streamController.sink.add(item);
+  }
+
+  @override
+  Stream<PoiReply> streamFavorite() {
+    return _streamController.stream;
+  }
+
+  @override
+  List<PoiReply> get favourite {
+    return MockLocalDataSource.instance.favourites;
+  }
+
+  @override
+  bool isThereFavourite(PoiReply item) {
+    if (_items.contains(item)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+class MockAuthService extends Mock implements IAuthService {
+  @override
+  Future<LoginReply> login(LoginRequest request) async {
+    var res = await AuthenticationClient(GrpcClient.channel,
+        options: CallOptions(
+          timeout: const Duration(seconds: 15),
+          metadata: {'content-type': 'application/grpc'},
+        )).login(request);
+    MockLocalDataSource.instance.setToken(res.token);
+    return res;
+  }
+}
+
+class MockPoiService extends Mock implements IPoiService {
+  @override
+  Stream<PoiReply> getPois() {
+    return PoiLocatorClient(GrpcClient.channel,
+        options: CallOptions(
+          timeout: const Duration(seconds: 15),
+          metadata: {
+            'content-type': 'application/grpc',
+            'Authorization': 'Bearer ' + (MockLocalDataSource.instance.token ?? "")
+          },
+        )).getPois(PoiRequest());
+  }
 }
