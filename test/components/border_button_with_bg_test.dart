@@ -25,7 +25,6 @@ void main() {
             color: AppColors.toggColor,
             textColor: AppColors.white,
             borderColor: AppColors.toggColor,
-            key: Key(""),
             onClickAction: () {},
           );
           return _wrapWithMaterialApp(_wrapWithMaterialApp(widget));
@@ -48,7 +47,6 @@ void main() {
                 color: AppColors.toggColor,
                 textColor: AppColors.white,
                 borderColor: AppColors.toggColor,
-                key: Key(""),
                 onClickAction: () {},
               );
               return _wrapWithMaterialApp(_wrapWithMaterialApp(widget));
@@ -71,7 +69,6 @@ void main() {
                 color: AppColors.toggColor,
                 textColor: AppColors.white,
                 borderColor: AppColors.toggColor,
-                key: Key(""),
                 onClickAction: () {},
               );
               return _wrapWithMaterialApp(_wrapWithMaterialApp(widget));
@@ -94,7 +91,6 @@ void main() {
                 color: AppColors.toggColor,
                 textColor: AppColors.white,
                 borderColor: AppColors.toggColor,
-                key: Key(""),
                 onClickAction: () {},
               );
               return _wrapWithMaterialApp(_wrapWithMaterialApp(widget));
@@ -117,7 +113,7 @@ void main() {
                 color: AppColors.toggColor,
                 textColor: AppColors.white,
                 borderColor: AppColors.toggColor,
-                onClickAction: () {}, key: Key(""),
+                onClickAction: () {}
               );
               return _wrapWithMaterialApp(_wrapWithMaterialApp(widget));
             }

@@ -5,7 +5,6 @@ import 'package:togg/common/common.dart';
 class BorderButtonWithBackgroundColor extends StatelessWidget {
 
   BorderButtonWithBackgroundColor({
-    required this.key,
     required this.text,
     required this.color,
     required this.textColor,
@@ -21,7 +20,6 @@ class BorderButtonWithBackgroundColor extends StatelessWidget {
     this.bottomLeft = 4,
     this.bottomRight = 4,
   });
-  Key key;
   double textSize;
   double height;
   bool canChangeableRadius;
@@ -40,8 +38,7 @@ class BorderButtonWithBackgroundColor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      key: key,
-      onPressed: () async => onClickAction,
+      onPressed: () async => onClickAction(),
       child: Text(text.tr,
           textAlign: TextAlign.center,
           style: style),

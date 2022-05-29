@@ -28,7 +28,6 @@ class LoginScreen extends GetView<LoginController> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           TextFormField(
-                            key: Key("userNameField"),
                             keyboardType: TextInputType.text,
                             controller: controller.loginUsernameTextController,
                             validator: (value) => validateNameField(value!),
@@ -67,7 +66,6 @@ class LoginScreen extends GetView<LoginController> {
                           ),
                           const SizedBox(height: AppSizes.default_margin_size),
                           TextFormField(
-                            key: Key("passwordField"),
                             keyboardType: TextInputType.text,
                             obscureText: controller.obscured.value,
                             controller: controller.loginPasswordTextController,
@@ -119,7 +117,6 @@ class LoginScreen extends GetView<LoginController> {
                           ),
                           const SizedBox(height: AppSizes.default_margin_size),
                           BorderButtonWithBackgroundColor(
-                            key: Key("loginButton"),
                             text: "Login",
                             color: AppColors.toggColor,
                             textColor: AppColors.white,
